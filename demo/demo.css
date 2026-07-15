@@ -164,6 +164,11 @@ body {
   outline-offset: -2px;
 }
 
+.token-card.tenant-token {
+  outline: 2px solid #a855f7;
+  outline-offset: -2px;
+}
+
 .token-swatch {
   height: 44px;
   border-bottom: 1px solid var(--card-border);
@@ -203,6 +208,11 @@ body {
 .badge-app {
   background: rgba(249, 115, 22, 0.15);
   color: var(--color-brand-orange);
+}
+
+.badge-tenant {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
 }
 
 .badge-base {
@@ -272,6 +282,48 @@ body {
   align-items: center;
   gap: var(--space-4);
   flex-wrap: wrap;
+}
+
+.tenant-card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  overflow: hidden;
+}
+
+.tenant-hero {
+  padding: var(--space-6) var(--space-5);
+  background: var(--color-tenant-hero-bg);
+  color: var(--color-tenant-hero-text);
+}
+
+.tenant-hero-eyebrow {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: var(--space-1);
+}
+
+.tenant-hero-title {
+  font-family: var(--font-tenant-display);
+  margin: 0;
+  font-size: var(--text-2xl);
+  text-shadow: 0 0 24px var(--color-tenant-accent-glow);
+}
+
+.tenant-ramp {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.tenant-ramp-step {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--card-border);
 }
 
 .legend {

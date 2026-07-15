@@ -14,9 +14,18 @@
    editing this file — so this file (the base theme) can be updated and
    republished without disrupting per-app customizations, and DevTools shows
    exactly which layer any given token value came from.
+
+   A third, narrower tier — `overclocked.tenant` — exists for per-challenge
+   / per-programme sponsor branding. Unlike `overclocked.app` it is NOT a
+   global stylesheet layer in practice: it's realized as inline custom
+   properties on a scoped wrapper (ChallengeThemeScope, from
+   src/theme/tenantTheme.js), which already outranks every layer here
+   unconditionally. It's declared in the layer order below only as a
+   documented extension point for the rare case a tenant needs a real CSS
+   rule rather than a token value. See docs/theming.md § Tenant theming.
    ========================================================================== */
 
-@layer overclocked.base, overclocked.app;
+@layer overclocked.base, overclocked.app, overclocked.tenant;
 
 @layer overclocked.base {
 
@@ -125,6 +134,15 @@
   --color-progress-fill:        #84cc16;
   --color-progress-fill-strong: #65a30d;
   --color-progress-track:       #e7dfcc;
+
+  /* Discrete intensity ramp (e.g. activity heatmaps). --color-progress-low
+     is intentionally aliased to the track tone, not a distinct hex — it's
+     the "no/low activity" step and must stay neutral across every tenant
+     theme (see LOCKED tokens below). mid/high/peak are tenant-customizable. */
+  --color-progress-low:  var(--color-progress-track);
+  --color-progress-mid:  #a3e635;
+  --color-progress-high: #65a30d;
+  --color-progress-peak: #15803d;
 
   --color-streak:          #f97316;
   --color-personal-best:   #84cc16;
@@ -349,6 +367,16 @@
   --btn-tracking:      var(--tracking-wide);
   --btn-radius:        var(--radius-button);
   --btn-border-width:  1px;
+
+  /* ── Tenant / sponsor theming ──────────────────────────────
+     Defaults for a single sponsored challenge/programme. Inert until a
+     ChallengeThemeScope wrapper sets these inline on a scoped element —
+     see docs/theming.md § Tenant theming. Never read directly by global
+     app chrome. */
+  --font-tenant-display:      var(--font-display);
+  --color-tenant-hero-bg:     transparent;
+  --color-tenant-hero-text:   inherit;
+  --color-tenant-accent-glow: transparent;
 }
 
 
@@ -457,6 +485,11 @@
   --color-progress-fill:        #a3e635;
   --color-progress-fill-strong: #84cc16;
   --color-progress-track:       rgba(255, 255, 255, 0.12);
+
+  --color-progress-low:  var(--color-progress-track);
+  --color-progress-mid:  #84cc16;
+  --color-progress-high: #a3e635;
+  --color-progress-peak: #22c55e;
 
   --color-streak:          #fb923c;
   --color-personal-best:   #a3e635;

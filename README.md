@@ -69,7 +69,7 @@ function App() {
 | --- | --- | --- |
 | `@overclocked/shared-ui` | `dist/index.js` | Everything below, re-exported from one entry point |
 | `@overclocked/shared-ui/components` | `dist/components/index.js` | `Avatar`, `ImageUpload`, `ToastProvider`/`useToast`, `TabBar`, `DayDots` |
-| `@overclocked/shared-ui/theme` | `dist/theme/index.js` | `TOKENS_CSS_PATH` helper |
+| `@overclocked/shared-ui/theme` | `dist/theme/index.js` | `TOKENS_CSS_PATH`, `ChallengeThemeScope`, `buildTenantThemeVars`, `TENANT_TOKEN_MAP` |
 | `@overclocked/shared-ui/theme/tokens.css` | `src/theme/tokens.css` | The base design tokens + global resets + component CSS recipes |
 | `@overclocked/shared-ui/hooks` | `dist/hooks/index.js` | `ThemeProvider`, `useTheme` (light/dark, persisted to `localStorage`) |
 | `@overclocked/shared-ui/utils` | `dist/utils/index.js` | `fmtReps`, `timeAgo`, `ordinal`, `avatarColor`, `initials`, `AVATAR_COLORS` |
@@ -96,15 +96,29 @@ touching or reapplying an app's customizations. It also makes overrides
 traceable: DevTools shows exactly which layer supplied any given token
 value.
 
-Full details, the override contract (which tokens are meant to be
-app-customizable vs. kept identical across apps), and a working example are
-in **[docs/theming.md](docs/theming.md)**.
+There's a third, narrower tier for **tenant/sponsor theming** — branding a
+single challenge (REP•STACK) or programme (OVERCLOCK) for a paying company,
+without touching the rest of the app. It's scoped, not global, and applied
+at runtime via inline custom properties rather than a stylesheet layer:
+
+```jsx
+import { ChallengeThemeScope } from '@overclocked/shared-ui'
+
+<ChallengeThemeScope theme={{ primaryColor: '#ff6a00', heroBg: '...' }}>
+  {/* only this subtree picks up the sponsor's colors */}
+</ChallengeThemeScope>
+```
+
+Full details, the three-tier override contract (which tokens are
+app-customizable, which are tenant-customizable, and which are locked
+everywhere), and working examples are in **[docs/theming.md](docs/theming.md)**.
 
 ## Design system demo
 
 Run the local showcase page to see every base token (grouped, with live
-swatches for both themes), which ones are app-customizable, a live demo of
-the `overclocked.app` override layer, and every exported component rendered
+swatches for both themes and badges for the app- and tenant-customizable
+subsets), a live demo of the `overclocked.app` override layer, a live demo
+of scoped tenant/sponsor theming, and every exported component rendered
 with real props:
 
 ```bash

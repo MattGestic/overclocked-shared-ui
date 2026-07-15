@@ -1,4 +1,5 @@
 import tokensRaw from '../src/theme/tokens.css?raw'
+import { TENANT_TOKEN_MAP } from '../src/theme/tenantTheme.js'
 
 // Everything here is derived from the real tokens.css at build time, so the
 // demo page can never drift out of sync with the actual base theme.
@@ -50,6 +51,7 @@ const CATEGORIES = [
   { key: 'color-streak', label: 'Activity — streak', kind: 'color' },
   { key: 'color-personal-best', label: 'Activity — personal best', kind: 'color' },
   { key: 'color-challenge', label: 'Activity — challenge', kind: 'color' },
+  { key: 'color-tenant', label: 'Tenant / sponsor theming', kind: 'color' },
   { key: 'color-timer', label: 'Activity — timer phases', kind: 'color' },
   { key: 'color-chart', label: 'Charts', kind: 'color' },
   { key: 'color-nav', label: 'Navigation', kind: 'color' },
@@ -108,6 +110,15 @@ export function isCustomizable(name) {
   return CUSTOMIZABLE_PREFIXES.some(p => name === p || name.startsWith(p))
 }
 
+// The tenant tier's allow-list lives in one place — TENANT_TOKEN_MAP, the
+// same map ChallengeThemeScope enforces at runtime — so this can't drift
+// from what's actually overridable.
+const TENANT_TOKEN_NAMES = new Set(Object.values(TENANT_TOKEN_MAP).map(v => v.replace(/^--/, '')))
+
+export function isTenantCustomizable(name) {
+  return TENANT_TOKEN_NAMES.has(name)
+}
+
 export function buildTokenGroups() {
   const groups = new Map()
   for (const name of allNames) {
@@ -118,6 +129,7 @@ export function buildTokenGroups() {
       light: lightTokens.get(name),
       dark: darkTokens.get(name) ?? lightTokens.get(name),
       customizable: isCustomizable(name),
+      tenantCustomizable: isTenantCustomizable(name),
     })
   }
   return Array.from(groups.values())
@@ -125,3 +137,4 @@ export function buildTokenGroups() {
 
 export const tokenCount = allNames.length
 export const customizableCount = allNames.filter(isCustomizable).length
+export const tenantCustomizableCount = allNames.filter(isTenantCustomizable).length
