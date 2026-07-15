@@ -134,7 +134,7 @@ export default function ImageUpload({ currentUrl, onUpload, shape = 'circle', si
         </span>
       )}
 
-      {error && <div style={{ fontSize: 11, color: 'var(--color-status-error-text)', fontWeight: 600 }}>{error}</div>}
+      {error && <div style={{ fontSize: 11, color: 'var(--color-error-text)', fontWeight: 600 }}>{error}</div>}
 
       <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleFile} style={{ display: 'none' }} />
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
